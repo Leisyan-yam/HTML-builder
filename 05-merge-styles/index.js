@@ -17,7 +17,7 @@ fs.readdir(pathStream,
       'utf-8', 
       (err, data) => {
       if (err) throw err;
-      fs.writeFile(
+      fs.appendFile(
         path.join(__dirname, 'project-dist', 'bundle.css'),
         data,
         (err) => {
