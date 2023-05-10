@@ -17,22 +17,25 @@ fs.readdir(pathStream,
       'utf-8', 
       (err, data) => {
       if (err) throw err;
+      let arr = [];
+      arr.push(data);
+
+      fs.writeFile(
+        path.join(__dirname, 'project-dist', 'bundle.css'),
+        ' ',
+        (err) => {
+        if (err) throw err;
+        }
+      )
       fs.appendFile(
         path.join(__dirname, 'project-dist', 'bundle.css'),
-        data,
+        `${arr} `,
         (err) => {
-          if (err) throw err;
-          console.log('Файл был создан');
+        if (err) throw err;
         }
-    );
+      )
       }
     )
-    
-
-
-
-
-
     }
     })
   }
