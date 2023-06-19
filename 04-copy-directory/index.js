@@ -1,30 +1,20 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
-const pathStream = path.join(__dirname, 'files');
-
-  fs.mkdir(path.join(__dirname, 'files-copy'), { recursive: true }, (err) => {
-  if (err) throw err;
-  console.log("папка создана!")
-});
-
-fs.readdir(pathStream, 
-  { withFileTypes: true }, 
-  (err, files) => {
-  if (err)
-    console.log(err);
-  else {
+const PARENT_DIRECTORY = './04-copy-directory';
+const copyDir = async function(source, dist) {
+  fs.mkdir(dist, {recursive: true});
+  const files = await fs.readdir(source, { withFileTypes: true });
   files.forEach(file => {
-  fs.copyFile(
-    path.join(__dirname, 'files', `${file.name}`),
-    path.join(__dirname, 'files-copy', `${file.name}`),
-    (err) => {
-      if (err) throw err;
+    if (file.isDirectory()) {
+      copyDir(path.join(source, file.name), path.join(dist, file.name));
     }
-    )
-  })
-  console.log('файлы скопированы!')
-  }
-})
+    else {
+      fs.copyFile(path.join(source, file.name),
+        path.join(dist, file.name)
+      );
+    }
+  });
+};
 
-
-
+copyDir(path.join(PARENT_DIRECTORY, 'files'), path.join(PARENT_DIRECTORY, 'files-copy'));
+module.exports = {copyDir};

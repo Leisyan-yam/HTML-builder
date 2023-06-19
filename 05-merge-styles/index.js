@@ -19,7 +19,7 @@ fs.readdir(pathStream,
       if (err) throw err;
       let arr = [];
       arr.push(data);
-
+      
       fs.writeFile(
         path.join(__dirname, 'project-dist', 'bundle.css'),
         ' ',
@@ -34,6 +34,7 @@ fs.readdir(pathStream,
         if (err) throw err;
         }
       )
+
       }
     )
     }
